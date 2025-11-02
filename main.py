@@ -21,10 +21,11 @@ def get_users():
 def add_user(name: str, email: str):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO FixyDB.users (name, email) VALUES (%s, %s)", (name, email))
+    cursor.execute("INSERT INTO FixyDB.Users (ID,fullname,email) VALUES (1,%s, %s)", (name, email))
     conn.commit()
     cursor.close()
     conn.close()
     return {"message": "User added successfully"}
+
 
 

@@ -6,7 +6,8 @@ def get_connection():
         port="21316",
         user="avnadmin",
         password="AVNS_ZNXoQVjW1IsdYW2bIpW",
-        database="FixyD"
+        database="FixyDB"
     )
     return connection
+
 

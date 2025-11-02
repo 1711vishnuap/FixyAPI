@@ -11,7 +11,7 @@ def home():
 def get_users():
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM Users")  # example table
+    cursor.execute("SELECT * FROM FixyDB.Users")  # example table
     result = cursor.fetchall()
     cursor.close()
     conn.close()
@@ -26,4 +26,5 @@ def add_user(name: str, email: str):
     cursor.close()
     conn.close()
     return {"message": "User added successfully"}
+
 

@@ -17,7 +17,7 @@ def get_users():
     conn.close()
     return result
 
-@app.get("/add_user")
+@app.POST("/add_user")
 def add_user(name: str, email: str):
     conn = get_connection()
     cursor = conn.cursor()
@@ -26,6 +26,7 @@ def add_user(name: str, email: str):
     cursor.close()
     conn.close()
     return {"message": "User added successfully"}
+
 
 
 

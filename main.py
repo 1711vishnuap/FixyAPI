@@ -1,5 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from db import get_connection
+from fastapi import FastAPI
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -17,15 +19,34 @@ def get_users():
     conn.close()
     return result
 
+class User(BaseModel):
+    name: str
+    email: str
+    phoneno: str
+    password: str
+
 @app.post("/add_user")
-def add_user(name: str, email: str):
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO FixyDB.Users (ID,fullname,email) VALUES (1,%s, %s)", (name, email))
-    conn.commit()
-    cursor.close()
-    conn.close()
-    return {"message": "User added successfully"}
+def add_user(user: User):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        query = "INSERT INTO FixyDB.Users (fullname, email,phoneno,password) VALUES (%s, %s,%s, %s)"
+        params = (user.name, user.email,user.phoneno,user.password)
+
+        cursor.execute(query, params)
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+
+        return {"message": "User added successfully"}
+
+    except Exception as e:
+        print("ERROR:", e)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 
 
 

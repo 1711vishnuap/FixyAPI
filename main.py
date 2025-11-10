@@ -46,6 +46,35 @@ def add_user(user: User):
         print("ERROR:", e)
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/isvalid_user")
+def is_valid_user(username: str, password: str):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        # Check if user exists
+        query = """
+            SELECT COUNT(*) AS count
+            FROM FixyDB.Users
+            WHERE FullName = %s AND Password = %s
+        """
+        cursor.execute(query, (username, password))
+        result = cursor.fetchone()
+
+        cursor.close()
+        conn.close()
+
+        # Convert to bit value
+        return {"isValid": 1 if result["count"] > 0 else 0}
+
+    except Exception as e:
+        return {"error": str(e)}
+
+
+
+
+
+
 
 
 

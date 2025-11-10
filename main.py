@@ -56,7 +56,7 @@ def is_valid_user(username: str, password: str):
         query = """
             SELECT COUNT(*) AS count
             FROM FixyDB.Users
-            WHERE FullName = %s AND Password = %s
+            WHERE (PhoneNo = %s AND Password = %s)OR(Email = %s AND Password = %s)
         """
         cursor.execute(query, (username, password))
         result = cursor.fetchone()
@@ -69,6 +69,7 @@ def is_valid_user(username: str, password: str):
 
     except Exception as e:
         return {"error": str(e)}
+
 
 
 

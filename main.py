@@ -58,7 +58,7 @@ def is_valid_user(username: str, password: str):
             FROM FixyDB.Users
             WHERE (PhoneNo = %s AND Password = %s)OR(Email = %s AND Password = %s)
         """
-        cursor.execute(query, (username, password))
+        cursor.execute(query, (username, password,username, password))
         result = cursor.fetchone()
 
         cursor.close()
@@ -69,6 +69,7 @@ def is_valid_user(username: str, password: str):
 
     except Exception as e:
         return {"error": str(e)}
+
 
 
 
